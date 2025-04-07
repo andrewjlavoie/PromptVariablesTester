@@ -212,6 +212,36 @@ def call_llm(prompt: str, llm_params: Dict[str, Any]) -> str:
     except Exception as e:
         return f"Error calling LLM: {str(e)}"
 
+def get_log_filename(base_path: str, append_datetime: bool) -> str:
+    """
+    Generate a log filename, optionally appending the current datetime.
+    
+    Args:
+        base_path: The base path for the log file
+        append_datetime: Whether to append the current datetime to the filename
+        
+    Returns:
+        The final log file path
+    """
+    if not append_datetime:
+        return base_path
+        
+    # Split the path into directory and filename
+    directory = os.path.dirname(base_path)
+    filename = os.path.basename(base_path)
+    
+    # Split filename into name and extension
+    if '.' in filename:
+        name, ext = filename.rsplit('.', 1)
+        datetime_str = datetime.datetime.now().strftime("%d%b%Y_%H-%M-%S")
+        new_filename = f"{name}_{datetime_str}.{ext}"
+    else:
+        datetime_str = datetime.datetime.now().strftime("%d%b%Y_%H-%M-%S")
+        new_filename = f"{filename}_{datetime_str}"
+    
+    # Combine directory and new filename
+    return os.path.join(directory, new_filename)
+
 def log_session(log_file: str, session_data: Dict[str, Any]):
     """
     Log the session data to an XML file.
@@ -297,7 +327,13 @@ def main():
     top_p = st.sidebar.slider("Top P", 0.0, 1.0, 1.0)
     system_prompt = st.sidebar.text_area("System Prompt", "")
     
+    st.sidebar.markdown("---")
+    st.sidebar.header("Application Settings")
+    max_iterations = st.sidebar.number_input("Max Iterations", 1, 100, 10, 
+                                           help="Maximum number of combinations to process")
     log_file = st.sidebar.text_input("Log File Path", "logs/prompt_tests.xml")
+    append_datetime = st.sidebar.checkbox("Append datetime to log filename", value=True,
+                                     help="Add current date and time to the log file name")
     
     # Main interface
     prompt_template = st.text_area("Prompt Template", 
@@ -335,6 +371,11 @@ def main():
             if not combinations:
                 st.error("No valid combinations found. Please check your variable definitions.")
                 return
+                
+            # Limit the number of combinations to process
+            if len(combinations) > max_iterations:
+                st.warning(f"Found {len(combinations)} possible combinations. Limiting to {max_iterations} as configured.")
+                combinations = combinations[:max_iterations]
             
             # Prepare session data for logging
             session_data = {
@@ -344,7 +385,8 @@ def main():
                     "temperature": temperature,
                     "max_tokens": max_tokens,
                     "top_p": top_p,
-                    "system_prompt": system_prompt
+                    "system_prompt": system_prompt,
+                    "max_iterations": max_iterations
                 },
                 "inputs": []
             }
@@ -399,8 +441,9 @@ def main():
             
             # Log the session
             try:
-                log_session(log_file, session_data)
-                st.success(f"Session logged to {log_file}")
+                final_log_file = get_log_filename(log_file, append_datetime)
+                log_session(final_log_file, session_data)
+                st.success(f"Session logged to {final_log_file}")
             except Exception as e:
                 st.error(f"Error logging session: {e}")
             
