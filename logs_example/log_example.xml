@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sessions>
+  <session datetime="06Apr2025 - 08:39:12">
+    <input1>
+      <variables>
+        <file_content_path>./test_data/multithreading.h</file_content_path>
+        <llm_parameters>
+          <model>claude-3-haiku-20240307</model>
+          <temperature>0.0</temperature>
+          <max_tokens>1024</max_tokens>
+          <top_p>0.3</top_p>
+        </llm_parameters>
+      </variables>
+      <prompt>Write a summary of multithreading.h</prompt>
+      <output>Summary of multithreading header file...</output>
+    </input1>
+    <input2>
+      <variables>
+        <file_content_path>./test_data/union_example.h</file_content_path>
+        <llm_parameters>
+          <model>claude-3-haiku-20240307</model>
+          <temperature>0.0</temperature>
+          <max_tokens>1024</max_tokens>
+          <top_p>0.3</top_p>
+        </llm_parameters>
+      </variables>
+      <prompt>Write a summary of union_example.h</prompt>
+      <output>Summary of union example header file...</output>
+    </input2>
+  </session>
+</sessions>
