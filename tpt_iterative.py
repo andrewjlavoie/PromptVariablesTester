@@ -323,7 +323,7 @@ def main():
         ["claude-3-7-sonnet-latest", "claude-3-5-haiku-latest", "claude-3-haiku-20240307"]
     )
     temperature = st.sidebar.slider("Temperature", 0.0, 1.0, 0.7)
-    max_tokens = st.sidebar.number_input("Max Tokens", 1, 4096, 1024)
+    max_tokens = st.sidebar.number_input("Max Tokens", 1, 128000, 32000)
     top_p = st.sidebar.slider("Top P", 0.0, 1.0, 1.0)
     system_prompt = st.sidebar.text_area("System Prompt", "")
     
