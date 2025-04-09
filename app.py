@@ -198,7 +198,7 @@ def call_llm(prompt: str, llm_params: Dict[str, Any]) -> str:
         client = anthropic.Anthropic(api_key=llm_params.get("api_key", ""))
         
         message = client.messages.create(
-            model=llm_params.get("model", "claude-3-opus-20240229"),
+            model=llm_params.get("model", "claude-3-7-sonnet-latest"),
             max_tokens=llm_params.get("max_tokens", 1024),
             temperature=llm_params.get("temperature", 0.7),
             top_p=llm_params.get("top_p", 1.0),
