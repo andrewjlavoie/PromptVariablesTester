@@ -331,7 +331,7 @@ def main():
     st.sidebar.header("Application Settings")
     max_iterations = st.sidebar.number_input("Max Iterations", 1, 100, 10, 
                                            help="Maximum number of combinations to process")
-    log_file = st.sidebar.text_input("Log File Path", "logs/prompt_tests.xml")
+    log_file = st.sidebar.text_input("Log File Path", "~/logs/pvt_file_iterative/file_iterative_tests.xml")
     append_datetime = st.sidebar.checkbox("Append datetime to log filename", value=True,
                                      help="Add current date and time to the log file name")
     

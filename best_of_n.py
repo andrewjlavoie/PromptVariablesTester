@@ -463,7 +463,7 @@ def main():
     
     st.sidebar.markdown("---")
     st.sidebar.header("Application Settings")
-    log_file = st.sidebar.text_input("Log File Path", "logs/best_of_n_tests.xml")
+    log_file = st.sidebar.text_input("Log File Path", "~/logs/pvt_best_of_n/best_of_n_tests.xml")
     append_datetime = st.sidebar.checkbox("Append datetime to log filename", value=True,
                                      help="Add current date and time to the log file name")
     
